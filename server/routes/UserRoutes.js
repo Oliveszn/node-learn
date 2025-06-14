@@ -6,6 +6,7 @@ const {
   loginUser,
   logout,
   authMiddleware,
+  changePassword,
 } = require("../controller/UserController");
 
 const router = express.Router();
@@ -18,6 +19,8 @@ router.post("/login", loginUser);
 
 // logout route
 router.post("/logout", logout);
+
+router.post("/change", authMiddleware, changePassword);
 
 // middleware route
 router.get("/checkAuth", authMiddleware, (req, res) => {

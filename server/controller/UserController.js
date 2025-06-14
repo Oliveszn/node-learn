@@ -130,4 +130,55 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, loginUser, logout, authMiddleware };
+const changePassword = async (req, res) => {
+  try {
+    const userId = req.userInfo.userId;
+    //extract old and new password
+    const { oldPassword, newPassword } = req.body;
+
+    //find current logged in user
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    //check if old password is correct
+    const isPasswordMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({
+        success: false,
+        message: " Old password is not correct, Try again",
+      });
+    }
+
+    ////hash new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    //update user password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "password changed succesfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Some error occured",
+    });
+  }
+};
+
+module.exports = {
+  registerUser,
+  loginUser,
+  logout,
+  authMiddleware,
+  changePassword,
+};
