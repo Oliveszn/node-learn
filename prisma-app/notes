@@ -1,0 +1,52 @@
+mkdir prisma-app //creating a new folder
+npm install -D prisma 
+npm install @prisma/client //installing prisma
+npm install -D typescript ts-node @types/node
+npm i express
+npm install -D prisma typescript ts-node @types/node @types/express nodemon
+npx tsc --init ///initializng typescript
+npx prisma init //init prisma
+npx prisma migrate dev --name init ///to move tables to neon
+npx prisma generate //generating a prisma 
+use dir to see folder structure 
+please delete prisma.config.ts
+
+MIGRATION COMMANDS
+# Create a new migration after changing schema
+npx prisma migrate dev --name description_of_change
+
+# Apply pending migrations to production database
+npx prisma migrate deploy
+
+# Reset database (WARNING: Deletes all data!)
+npx prisma migrate reset
+
+# Check migration status
+npx prisma migrate status
+
+# Create migration without applying it
+npx prisma migrate dev --create-only
+
+//DEVELOPMENT COMMANDS
+# Push schema changes without creating migration (good for prototyping)
+npx prisma db push
+
+# Pull existing database schema into your Prisma schema
+npx prisma db pull
+
+# Seed your database (if you have a seed file)
+npx prisma db seed
+
+CLIENT COMMANDS
+# Generate Prisma Client after schema changes
+npx prisma generate
+
+# Format your Prisma schema file
+npx prisma format
+
+# Validate your Prisma schema
+npx prisma validate
+
+STUDIO
+# Open Prisma Studio - visual database editor
+npx prisma studio
